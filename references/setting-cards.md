@@ -1,4 +1,4 @@
-﻿# Setting Card Rules And Templates
+# Setting Card Rules And Templates
 
 Extracted from `rulebook.md`. Read this file only when `SKILL.md` routing says it applies to the current task.
 

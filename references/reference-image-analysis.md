@@ -1,4 +1,4 @@
-﻿# Reference Image Analysis And Confirmation
+# Reference Image Analysis And Confirmation
 
 Extracted from `rulebook.md`. Read this file only when `SKILL.md` routing says it applies to the current task.
 
