@@ -1,22 +1,36 @@
 ---
 name: character-image-prompt
-description: Use when the user wants to analyze reference images for character image generation, create structured character prompts, build reusable character/outfit/scene/style/negative setting cards, or keep the same character, scene, outfit, or style consistent across a visual series. Trigger for requests involving 人物提示词, 参考图分析, 角色设定卡, 场景设定卡, 造型变体, 风格设定卡, 系列图一致性, or natural-language image prompt generation.
+description: Use when the user wants to analyze reference images for character image generation, create structured character prompts, build reusable character/outfit/scene/style/negative setting cards, or keep the same character, scene, outfit, or style consistent across a visual series. Trigger for requests involving 人物提示词, 参考图分析, 角色设定卡, 场景设定卡, 造型变体, 风格设定卡, 系列图一致性, or natural-language image prompt generation. When producing analysis, prompts, or setting cards, read the routed reference files before answering.
 ---
 
 # Character Image Prompt
 
-Use this skill to help the user turn reference images and natural-language intent into structured character image prompts, reusable setting cards, and consistent series prompts.
+Use this skill to turn reference images and natural-language intent into structured character image prompts, reusable setting cards, and consistent series prompts.
 
-For the full rulebook, read `references/rulebook.md` when the task needs detailed behavior, templates, or edge-case rules.
+## Reference Loading Policy
+
+Do not produce reference analysis, final prompts, or setting cards from `SKILL.md` alone.
+
+Before any task output, read `references/core.md` first. Then read only the routed files that apply to the current request:
+
+- Reference image analysis, one or two images, or user confirmation after image analysis: read `references/reference-image-analysis.md`.
+- Direct natural-language prompt generation, vague user ideas, mood/style/story translation, or prompt refinement: read `references/natural-language-intent.md`.
+- Same character, same outfit, same scene, same style, series images, or only changing action/expression/camera/narrative moment: read `references/consistency.md`.
+- Creating, reusing, matching, saving, updating, or combining character/outfit/scene/style/negative setting cards: read `references/setting-cards.md`.
+- Before emitting a final image-generation prompt, English keyword block, negative constraints, platform adaptation, quality check, or post-prompt continuation question: read `references/prompt-output.md`.
+
+Read `references/rulebook.md` only when the routed files are insufficient or when the user explicitly asks for the complete rulebook. Only skip reference loading when the user is asking about installing, debugging, or editing this skill itself.
 
 ## Core Workflow
 
+0. Read the applicable reference files using the routing policy above.
 1. If the user provides one or two reference images, analyze the image(s) first. Do not generate the final prompt yet.
 2. Output a layered reference analysis: quick summary, detailed breakdown, extractable consistency anchors, adjustable elements, and confirmation question.
 3. Wait for the user to confirm, modify, or add requirements.
 4. Convert the user's natural-language intent into professional visual language: character, outfit, pose, camera, lighting, scene, color, texture, style keywords, and negative constraints.
 5. Generate the final prompt using Chinese module descriptions plus English keyword reinforcement.
-6. If the user likes a result or asks to reuse it, offer setting cards and generate drafts for confirmation before treating them as locked.
+6. After every final prompt, append a short next-step confirmation block following `references/prompt-output.md`.
+7. If the user likes a result or asks to reuse it, offer setting cards and generate drafts for confirmation before treating them as locked.
 
 ## Setting Card System
 
@@ -79,6 +93,8 @@ If no locked core character card is involved, `核心角色一致性` may become
 - Use English keywords only as precise reinforcement for style, camera, lighting, material, texture, and quality.
 - Do not over-stack generic quality words.
 - Keep negative constraints relevant to the task.
+- Every final prompt for human characters must include explicit anatomy, limb, hand, and finger integrity constraints.
+- Every final prompt must resolve alternatives into one specific choice for appearance, expression, action, camera, lighting, scene, outfit, and props.
 - If the user specifies a target platform, adapt the final format while preserving the core visual logic.
 
 ## Safety And Copyright
